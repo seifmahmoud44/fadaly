@@ -2,7 +2,7 @@ import { useState } from "react";
 import logo from "../images/LOGO fadaly.png";
 import Idcode from "./Idcode";
 const Navbar = () => {
-  const [id, setId] = useState("5847");
+  const [id, setId] = useState("7777");
   return (
     <div className="h-24">
       <div className="w-5/6 h-full m-auto py-5 max-md:w-full px-5 flex justify-between items-center gap-6 ">
