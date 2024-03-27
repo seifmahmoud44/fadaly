@@ -8,6 +8,8 @@ function App() {
   useEffect(() => {
     if (Cookies.get("id") === undefined) {
       navigate("/addid");
+    } else {
+      navigate("/takepic");
     }
   }, []);
   return (
