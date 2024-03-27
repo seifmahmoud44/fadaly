@@ -39,7 +39,7 @@ const TakePic = () => {
   return (
     <div>
       {/* No need for buttons to start and stop the camera */}
-      <button onClick={captureImage}>Capture Image</button>
+      {/* <button onClick={captureImage}>Capture Image</button> */}
       <video
         ref={videoRef}
         width="100%"
