@@ -1,9 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const TakePic = () => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [mediaStream, setMediaStream] = useState(null);
+
+  useEffect(() => {
+    startCamera(); // Automatically start the camera when the component mounts
+  }, []); // Empty dependency array ensures the effect runs only once
 
   const startCamera = async () => {
     try {
@@ -34,13 +38,12 @@ const TakePic = () => {
 
   return (
     <div>
-      <button onClick={startCamera}>Start Camera</button>
-      <button onClick={stopCamera}>Stop Camera</button>
+      {/* No need for buttons to start and stop the camera */}
       <button onClick={captureImage}>Capture Image</button>
       <video
         ref={videoRef}
         width="100%"
-        style={{ width: "100%", height: "100vh", objectFit: "contain" }}
+        style={{ height: "calc(100vh - 96px)", objectFit: "contain" }} // Set the height dynamically
         autoPlay
         playsInline
       ></video>
