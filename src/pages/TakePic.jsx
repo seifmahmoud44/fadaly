@@ -122,10 +122,10 @@ const TakePic = () => {
         ) : null}
 
         <div className="absolute w-full  m-auto bottom-0 left-0 z-20 bg-[#120E00] bg-opacity-60 ">
-          <div className="flex justify-center items-center px-5 pt-5 gap-5">
+          <div className="flex justify-center items-center px-5 pt-5 rounded-md overflow-hidden">
             <div
               onClick={() => setstate(false)}
-              className={`w-1/2 h-full text-left py-5 px-5 text-2xl font-bold transition-all rounded-md  ${
+              className={`w-1/2 h-full text-left py-5 px-5 text-2xl font-bold transition-all   ${
                 state ? "bg-[#120E00] text-gray-400" : "bg-[#FF7C0A] text-white"
               }`}
             >
@@ -133,7 +133,7 @@ const TakePic = () => {
             </div>
             <div
               onClick={() => setstate(true)}
-              className={`w-1/2 h-full text-right py-5 px-5 text-2xl font-bold transition-all rounded-md  ${
+              className={`w-1/2 h-full text-right py-5 px-5 text-2xl font-bold transition-all   ${
                 state ? "bg-[#FF7C0A] text-white" : "bg-[#120E00] text-gray-400"
               }`}
             >
