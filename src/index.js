@@ -17,7 +17,7 @@ const router = createBrowserRouter([
         element: <AddId />,
       },
       {
-        path: "takepic",
+        path: "takepic/:id",
         element: <TakePic />,
       },
       {
