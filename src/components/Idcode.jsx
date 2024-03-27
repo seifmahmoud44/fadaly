@@ -1,12 +1,16 @@
+import Cookies from "js-cookie";
 import React, { useEffect, useRef } from "react";
 
-const Idcode = ({ disabeled, id }) => {
+const Idcode = ({ disabeled, id, setId }) => {
   const input1 = useRef();
   const input2 = useRef();
   const input3 = useRef();
   const input4 = useRef();
 
   const handelInput = (e) => {
+    setId(
+      `${input1.current.value}${input2.current.value}${input3.current.value}${input4.current.value}`
+    );
     if (input1.current.value.length >= 1) {
       input2.current.focus();
     }
@@ -31,9 +35,9 @@ const Idcode = ({ disabeled, id }) => {
   };
 
   useEffect(() => {
-    input1.current.value = parseInt(id[1]);
-    if (id.length > 0) {
-      const idArr = id.split("");
+    // input1.current.value = parseInt(id[1]);
+    if (Cookies.get("id")) {
+      const idArr = Cookies.get("id").split("");
       const inputsArr = [input1, input2, input3, input4];
       for (let i = 0; i < idArr.length; i++) {
         inputsArr[i].current.value = parseInt(idArr[i]);
