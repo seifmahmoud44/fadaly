@@ -43,7 +43,7 @@ const TakePic = () => {
       <video
         ref={videoRef}
         width="100%"
-        style={{ height: "calc(100vh - 96px)", objectFit: "contain" }} // Set the height dynamically
+        style={{ height: "calc(100vh - 96px)", objectFit: "cover" }} // Set the height dynamically
         autoPlay
         playsInline
       ></video>
