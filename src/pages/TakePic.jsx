@@ -2,6 +2,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { SyncLoader } from "react-spinners";
+import { Toaster, toast } from "sonner";
 
 const TakePic = () => {
   const navigate = useNavigate();
@@ -12,7 +14,7 @@ const TakePic = () => {
   const [location, setlocation] = useState(false);
   const [latitude, setLatitude] = useState();
   const [longitude, setLongitude] = useState(null);
-
+  const [loading, setLoading] = useState(false);
   const [state, setstate] = useState(false);
 
   const param = useParams();
@@ -59,22 +61,38 @@ const TakePic = () => {
       };
       setMediaStream(stream);
     } catch (error) {
-      console.error("Error accessing camera:", error);
+      console.log(error);
     }
   };
+  axios.interceptors.request.use(
+    function (config) {
+      // Log that a request is pending before it is sent
+      setLoading(true);
+      return config;
+    },
+    function (error) {
+      // Handle request errors
+      return Promise.reject(error);
+    }
+  );
 
   const setDate = (img) => {
     try {
       const data = {
-        id: param.id,
+        id: Cookies.get("id"),
         attendance: !state ? "Entrance" : "Exit",
         latitude: latitude,
         longitude: longitude,
         photoData: img,
       };
-      const res = axios.post("https://www.fadaly.org/api/v3/capture", data);
-      res.then((res) => {
-        console.log(res.data);
+      axios.post("https://www.fadaly.org/api/v3/capture", data).then((res) => {
+        if (res.data.message === "Attendance captured successfully") {
+          toast.success("تم التوقيع وشكرا");
+          setLoading(false);
+        } else {
+          toast.error("يبدو ان هناك مشكلة حاول مرة اخرى");
+        }
+        console.log(res);
       });
     } catch (err) {
       console.log(err);
@@ -84,18 +102,22 @@ const TakePic = () => {
     const context = canvasRef.current.getContext("2d");
     context.drawImage(videoRef.current, 0, 0, 300, 200);
     const img = canvasRef.current.toDataURL("image/png");
-
     setDate(img);
   };
 
   return (
     <div>
+      <Toaster position="top-center" richColors />
       {/* No need for buttons to start and stop the camera */}
       <div className="w-5/6 m-auto max-md:w-full relative">
         {!cam || !location ? (
           <div className="absolute w-full h-full bg-black opacity-75 z-50 flex flex-col justify-center items-center gap-10">
-            <p className="text-white text-2xl">نرجوا تشغيل خدمات الموقع</p>
-            <p className="text-white text-2xl">نرجوا اعطاء صلاحيات الكاميرا</p>
+            <p className="text-white text-2xl text-red-700">
+              نرجوا تشغيل خدمات الموقع
+            </p>
+            <p className="text-white text-2xl text-red-700">
+              نرجوا اعطاء صلاحيات الكاميرا
+            </p>
           </div>
         ) : null}
 
@@ -120,14 +142,18 @@ const TakePic = () => {
           </div>
           <div className="flex justify-center items-center gap-5 px-5 py-5">
             <button
+              disabled={loading}
               onClick={() => {
                 captureImage();
               }}
               className="flex-grow  p-3   text-white text-3xl font-bold  rounded-md bg-[#FF7C0A]"
             >
-              Capture
+              {loading ? <SyncLoader color="#ffff" /> : "Capture"}
             </button>
-            <button className="flex-grow  p-3   text-white text-3xl font-bold  rounded-md bg-[#FF7C0A]">
+            <button
+              onClick={() => navigate("/history")}
+              className="flex-grow  p-3   text-white text-3xl font-bold  rounded-md bg-[#FF7C0A]"
+            >
               History
             </button>
           </div>

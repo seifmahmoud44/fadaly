@@ -12,7 +12,8 @@ const Navbar = () => {
       <div className="w-5/6 h-full m-auto py-5 max-md:w-full px-5 flex justify-between items-center gap-6 ">
         <img src={logo} alt="" className="h-full" />
         {url.pathname !== "/addid" && (
-          <div className="py-5 w-52">
+          <div className="py-5 w-52 flex justify-center items-center">
+            <h1 className="text-[#120E00] text-2xl font-bold">ID</h1>
             <Idcode disabeled={true} setId={setId} id={id} />
           </div>
         )}
